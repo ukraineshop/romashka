@@ -1,0 +1,40 @@
+// Підключення бібліотек
+jQuery.getScript("https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/3.3.4/jquery.inputmask.bundle.min.js", function () {
+    // Встановлення маски на поле для телефону
+    $("input[type='tel']").inputmask("+38 9999999999");
+
+    // Обробка події подання форми
+    $("#order_form").submit(function (event) {
+        // Отримання значення номера телефону
+        var phoneNumber = $("input[name='phone']").val();
+        var nameValue = $("input[name='name']").val();
+
+        // Перевірка на наявність літер та мінімум 10 цифр у номері телефону
+        if (!/^\+?(\d\s?){9,}$/.test(phoneNumber)) {
+            // Відображення спливаючого вікна з помилкою
+            Swal.fire({
+                icon: 'error',
+                title: 'Помилка',
+                text: 'Введіть правильний номер телефону',
+                timer: 5000, // Час показу в мілісекундах (5 секунди)
+                showConfirmButton: false // Приховує кнопку "OK"
+            });
+
+            event.preventDefault(); // Зупиняє відправку форми
+        }
+
+        // Перевірка на наявність хоча б двох літер у полі ім'я
+        if (!/^[^\d]{2,}$/.test(nameValue)) {
+            // Відображення спливаючого вікна з помилкою
+            Swal.fire({
+                icon: 'error',
+                title: 'Помилка',
+                text: 'Введіть правильно ім\'я',
+                timer: 5000, // Час показу в мілісекундах (5 секунди)
+                showConfirmButton: false // Приховує кнопку "OK"
+            });
+
+            event.preventDefault(); // Зупиняє відправку форми
+        }
+    });
+});
